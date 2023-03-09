@@ -1,20 +1,52 @@
-﻿char[] alphabet = Enumerable.Range('a', 'z' - 'a' + 1).Select(i => (Char)i).ToArray();
+#region Constants
+const int OFFSET = 9;
+const string ENCRYPT = "e";
+const string DECRYPT = "d";
+#endregion
 
-string encryptedLink = "rddzc://mvkccbyyw.qsdrel.myw/k/njQi4uvX";
-string decryptedLink = "";
-
-for (int i = 0; i < encryptedLink.Length; i++)
+#region Main Program
 {
-    char decryptedChar;
-
-    if (!alphabet.Contains(Char.ToLower(encryptedLink[i]))) { decryptedChar = encryptedLink[i]; }
-    else
+    string option;
+    bool inputIsValid;
+    do
     {
-        int index = Array.IndexOf(alphabet, Char.ToLower(encryptedLink[i]));
-        decryptedChar = alphabet[(26 + index - 10) % 26];
-    }
-    
-    decryptedLink += Char.IsUpper(encryptedLink[i]) ? Char.ToUpper(decryptedChar) : decryptedChar;
-}
+        Console.Write("Decrypt or Encrypt? (d/e): ");
+        option = Console.ReadLine()!.ToLower();
 
-Console.WriteLine(decryptedLink);
+        inputIsValid = option is DECRYPT or ENCRYPT;
+        if (!inputIsValid) { Console.WriteLine("Invalid input. Try again..."); }
+    } while (!inputIsValid);
+
+    bool encrypt = option == ENCRYPT;
+
+    Console.Write("\nEnter an input: ");
+    string output = Cryptography(Console.ReadLine()!, encrypt ? OFFSET : -OFFSET);
+
+    Console.Write(encrypt ? "Encrypted" : "Decrypted");
+    Console.WriteLine($" output: {output}");
+}
+#endregion
+
+#region Methods
+string Cryptography(string input, int offSet)
+{
+    const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    string output = "";
+
+    for (int i = 0; i < input.Length; i++)
+    {
+        char outputChar;
+
+        if (!ALPHABET.Contains(Char.ToLower(input[i]))) { outputChar = input[i]; }
+        else
+        {
+            int index = ALPHABET.IndexOf(Char.ToLower(input[i]));
+            outputChar = ALPHABET[(ALPHABET.Count() + index + offSet) % ALPHABET.Count()];
+        }
+
+        output += Char.IsUpper(input[i]) ? Char.ToUpper(outputChar) : outputChar;
+    }
+
+    return output;
+}
+#endregion
