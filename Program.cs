@@ -43,7 +43,7 @@ string GetKeyword(string input)
         char inputChar = input[i];
         char outputChar = keyword[(i - nonLettersFound) % keyword.Length];
 
-        if (!ALPHABET.Contains(char.ToLower(inputChar))) { nonLettersFound++; outputChar = inputChar; }
+        if (!char.IsLetter(inputChar)) { nonLettersFound++; outputChar = inputChar; }
 
         output += outputChar;
     }
@@ -59,7 +59,7 @@ string Cryptograph(string input, string keyword, bool decrypt)
     {
         char outputChar;
 
-        if (!ALPHABET.Contains(char.ToLower(input[i]))) { outputChar = input[i]; }
+        if (!char.IsLetter(input[i])) { outputChar = input[i]; }
         else
         {
             int inputCharIndex = ALPHABET.IndexOf(char.ToLower(input[i]));
@@ -67,7 +67,6 @@ string Cryptograph(string input, string keyword, bool decrypt)
 
             outputChar = ALPHABET[(ALPHABET.Length + inputCharIndex + offset) % ALPHABET.Length];
         }
-
         output += char.IsUpper(input[i]) ? char.ToUpper(outputChar) : outputChar;
     }
 
