@@ -1,5 +1,5 @@
-#region Constants
-const int OFFSET = 9;
+﻿#region Constants
+const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 const string ENCRYPT = "e";
 const string DECRYPT = "d";
 #endregion
@@ -10,41 +10,67 @@ const string DECRYPT = "d";
     bool inputIsValid;
     do
     {
-        Console.Write("Decrypt or Encrypt? (d/e): ");
+        Console.Write($"Decrypt or Encrypt? ({ENCRYPT}/{DECRYPT}): ");
         option = Console.ReadLine()!.ToLower();
 
         inputIsValid = option is DECRYPT or ENCRYPT;
         if (!inputIsValid) { Console.WriteLine("Invalid input. Try again..."); }
     } while (!inputIsValid);
 
-    bool encrypt = option == ENCRYPT;
+    bool decrypt = option == DECRYPT;
 
     Console.Write("\nEnter an input: ");
-    string output = Cryptography(Console.ReadLine()!, encrypt ? OFFSET : -OFFSET);
+    string input = Console.ReadLine()!;
 
-    Console.Write(encrypt ? "Encrypted" : "Decrypted");
-    Console.WriteLine($" output: {output}");
+    Console.Write("Enter a keyword: ");
+    string keyword = GetKeyword(input);
+
+    Console.WriteLine();
+    Console.Write(decrypt ? "Decrypted" : "Encrypted");
+    Console.WriteLine($" output: {Cryptography(input, keyword, decrypt)}");
 }
 #endregion
 
 #region Methods
-string Cryptography(string input, int offSet)
+string GetKeyword(string input)
 {
-    const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    string keyword = Console.ReadLine()!;
+
+    string output = "";
+    int nonLettersFound = 0;
+    for (int i = 0; i < input.Length; i++)
+    {
+        char inputChar = input[i];
+        char outputChar = keyword[(i - nonLettersFound) % keyword.Length];
+
+        if (!ALPHABET.Contains(char.ToLower(inputChar))) { nonLettersFound++; outputChar = inputChar; }
+
+        output += outputChar;
+    }
+
+    return output;
+}
+
+string Cryptography(string input, string keyword, bool decrypt)
+{
     string output = "";
 
     for (int i = 0; i < input.Length; i++)
     {
         char outputChar;
 
-        if (!ALPHABET.Contains(Char.ToLower(input[i]))) { outputChar = input[i]; }
+        if (!ALPHABET.Contains(char.ToLower(input[i]))) { outputChar = input[i]; }
         else
         {
-            int index = ALPHABET.IndexOf(Char.ToLower(input[i]));
-            outputChar = ALPHABET[(ALPHABET.Count() + index + offSet) % ALPHABET.Count()];
+            int alphabetLength = ALPHABET.Length;
+
+            int inputCharIndex = ALPHABET.IndexOf(char.ToLower(input[i]));
+            int offset = ALPHABET.IndexOf(char.ToLower(keyword[i])) * (decrypt ? -1 : 1);
+
+            outputChar = ALPHABET[(alphabetLength + inputCharIndex + offset) % alphabetLength];
         }
 
-        output += Char.IsUpper(input[i]) ? Char.ToUpper(outputChar) : outputChar;
+        output += char.IsUpper(input[i]) ? char.ToUpper(outputChar) : outputChar;
     }
 
     return output;
