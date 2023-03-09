@@ -1,4 +1,4 @@
-﻿#region Constants
+#region Constants
 const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 const string ENCRYPT = "e";
 const string DECRYPT = "d";
@@ -10,7 +10,7 @@ const string DECRYPT = "d";
     bool inputIsValid;
     do
     {
-        Console.Write($"Decrypt or Encrypt? ({ENCRYPT}/{DECRYPT}): ");
+        Console.Write($"Encrypt or Decrypt? ({ENCRYPT}/{DECRYPT}): ");
         option = Console.ReadLine()!.ToLower();
 
         inputIsValid = option is DECRYPT or ENCRYPT;
