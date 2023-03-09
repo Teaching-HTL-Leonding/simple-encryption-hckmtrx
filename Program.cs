@@ -1,4 +1,4 @@
-#region Constants
+﻿#region Constants
 const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 const string ENCRYPT = "e";
 const string DECRYPT = "d";
@@ -62,12 +62,10 @@ string Cryptography(string input, string keyword, bool decrypt)
         if (!ALPHABET.Contains(char.ToLower(input[i]))) { outputChar = input[i]; }
         else
         {
-            int alphabetLength = ALPHABET.Length;
-
             int inputCharIndex = ALPHABET.IndexOf(char.ToLower(input[i]));
             int offset = ALPHABET.IndexOf(char.ToLower(keyword[i])) * (decrypt ? -1 : 1);
 
-            outputChar = ALPHABET[(alphabetLength + inputCharIndex + offset) % alphabetLength];
+            outputChar = ALPHABET[(ALPHABET.Length + inputCharIndex + offset) % ALPHABET.Length];
         }
 
         output += char.IsUpper(input[i]) ? char.ToUpper(outputChar) : outputChar;
