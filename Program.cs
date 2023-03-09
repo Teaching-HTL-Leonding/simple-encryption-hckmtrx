@@ -19,7 +19,7 @@ const string DECRYPT = "d";
 
     bool decrypt = option == DECRYPT;
 
-    Console.Write("\nEnter an input: ");
+    Console.Write("\nYour input: ");
     string input = Console.ReadLine()!;
 
     Console.Write("Enter a keyword: ");
@@ -27,7 +27,7 @@ const string DECRYPT = "d";
 
     Console.WriteLine();
     Console.Write(decrypt ? "Decrypted" : "Encrypted");
-    Console.WriteLine($" output: {Cryptography(input, keyword, decrypt)}");
+    Console.WriteLine($" output: {Cryptograph(input, keyword, decrypt)}");
 }
 #endregion
 
@@ -51,7 +51,7 @@ string GetKeyword(string input)
     return output;
 }
 
-string Cryptography(string input, string keyword, bool decrypt)
+string Cryptograph(string input, string keyword, bool decrypt)
 {
     string output = "";
 
