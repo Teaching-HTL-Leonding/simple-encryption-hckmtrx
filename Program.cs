@@ -1,4 +1,4 @@
-﻿#region Constants
+#region Constants
 const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 const string ENCRYPT = "e";
 const string DECRYPT = "d";
@@ -67,6 +67,7 @@ string Cryptograph(string input, string keyword, bool decrypt)
 
             outputChar = ALPHABET[(ALPHABET.Length + inputCharIndex + offset) % ALPHABET.Length];
         }
+        
         output += char.IsUpper(input[i]) ? char.ToUpper(outputChar) : outputChar;
     }
 
